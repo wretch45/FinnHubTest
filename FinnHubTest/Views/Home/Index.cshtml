@@ -1,0 +1,260 @@
+﻿@model Stock
+
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-md-6 offset-md-3">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="text-center">Symbol Search</h2>
+                </div>
+                <div class="card-body">
+                    <form id="search-form">
+                        <div class="input-group mb-3">
+                            <input type="text" id="symbol-input" class="form-control" placeholder="Enter a stock symbol">
+                            <div class="input-group-append">
+                                <button type="submit" id="search-button" class="btn btn-primary">Search</button>
+                            </div>
+                        </div>
+                        <div id="error-message" class="mt-3 alert alert-danger" style="display: none;"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-5 justify-content-center" id="stock-history"></div>
+</div>
+
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // Define global variables
+        var symbolInput, searchForm, errorMessage, stockHistory, stocks = {}, maxStockCount = 4, timerIds = {};
+        var requestTimestamps = [];
+        var maxRequestsPerMinute = 30;
+
+        // Fetch stock information
+        function updateStockInformation(symbol) {
+            if (!checkRateLimit()) {
+                displayErrorMessage('Rate limit exceeded. Please wait for a while before making more requests.');
+                return;
+            }
+        
+            $.ajax({
+                url: '@Url.Action("GetStockInformation", "Home")',
+                type: 'GET',
+                data: { symbol: symbol },
+                success: function (result) {
+                    if (result.error) {
+                        displayErrorMessage(result.error);
+                    } else {
+                        displayStockInformation(symbol, result);
+                    }
+                },
+                error: function () {
+                    displayErrorMessage('Failed to retrieve stock information due to a network error. Please try again.');
+                },
+                complete: function() {
+                    recordRequestTimestamp();
+                }
+            });
+        }
+
+        // Fetch stock name
+        function getStockName(symbol) {
+            if (!checkRateLimit()) {
+                displayErrorMessage('Rate limit exceeded. Please wait for a while before making more requests.');
+                return;
+            }
+        
+            $.ajax({
+                url: '@Url.Action("GetStockName", "Home")',
+                type: 'GET',
+                data: { symbol: symbol },
+                success: function (result) {
+                    if (stocks.hasOwnProperty(symbol)) {
+                        var stockItem = stocks[symbol];
+                        stockItem.find('.stock-name').text(result.name);
+                        stockItem.show();  // Show the stock card only after the stock name has been fetched
+                        stockItem.find('.card-spinner').hide();  // Hide the spinner when the stock name is fetched
+                    } else {
+                        createStockItem(symbol, result.name);
+                    }
+                },
+                error: function () {
+                    if (!stocks.hasOwnProperty(symbol)) {
+                        createStockItem(symbol, 'Unknown Stock');
+                    }
+                },
+                complete: function() {
+                    recordRequestTimestamp();
+                }
+            });
+        }
+
+        // Display stock information
+        function displayStockInformation(symbol, stock) {
+            if (stocks.hasOwnProperty(symbol)) {
+                var stockItem = stocks[symbol];
+                stockItem.find('.stock-price').text(stock.price.toFixed(2)); // Round to two decimal places
+                stockItem.find('.stock-timestamp').text(formatTimestamp(stock.timestamp));
+                startBlinkAnimation(stockItem.find('.live-indicator'));
+            } else {
+                createStockItem(symbol, '');
+                displayStockInformation(symbol, stock);
+            }
+        }
+
+        // Create stock item
+        function createStockItem(symbol) {
+            if (Object.keys(stocks).length >= maxStockCount) {
+                var oldestSymbol = Object.keys(stocks)[0];
+                removeStockItem(oldestSymbol);
+            }
+        
+            var stockItemHTML = `
+            <div class="col-md-3 mb-4"> <!-- Added mb-4 class for spacing between cards on mobile -->
+                <div class="card mb-3">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="card-title mb-0 stock-name">${name}</h5>
+                            <small class="card-subtitle text-muted stock-symbol">${symbol}</small>
+                        </div>
+                        <div class="live-indicator"></div>
+                    </div>
+                    <div class="card-body">
+                        <h1 class="text-center">$<span class="stock-price"></span></h1>
+                        <small class="card-text text-muted text-center d-block mt-2 stock-timestamp"></small>
+                        <div class="d-flex justify-content-center mt-3">
+                            <button class="btn btn-danger btn-sm remove-button mx-1">Remove</button>
+                            <button class="btn btn-primary btn-sm favorite-button mx-1">Favorite</button>
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+        
+            var stockItem = $(stockItemHTML);
+            stockHistory.prepend(stockItem);
+            stocks[symbol] = stockItem;
+            startStockUpdateTimer(symbol);
+            startBlinkAnimation(stockItem.find('.live-indicator'));
+            getStockName(symbol);
+        }
+
+
+        // Check rate limit
+        function checkRateLimit() {
+            var now = Date.now();
+            requestTimestamps = requestTimestamps.filter(timestamp => now - timestamp < 60000);
+            return requestTimestamps.length < maxRequestsPerMinute;
+        }
+
+        // Record request timestamp
+        function recordRequestTimestamp() {
+            requestTimestamps.push(Date.now());
+        }
+
+        // Remove stock item
+        function removeStockItem(symbol) {
+            if (stocks.hasOwnProperty(symbol)) {
+                var stockItem = stocks[symbol];
+                stopStockUpdateTimer(symbol);
+                stockItem.remove();
+                delete stocks[symbol];
+            }
+        }
+        
+        // Stop stock update timer
+        function stopStockUpdateTimer(symbol) {
+            if (timerIds.hasOwnProperty(symbol)) {
+                clearInterval(timerIds[symbol]);
+                delete timerIds[symbol];
+            }
+        }
+
+
+        // Display error message
+        function displayErrorMessage(error) {
+            var customErrorMessage = '';
+
+            switch (error) {
+                case 'Invalid ticker symbol or stock information not available.':
+                    customErrorMessage = 'The entered symbol is invalid or stock information is not available.';
+                    break;
+                default:
+                    customErrorMessage = 'An error occurred. Please try again.';
+                    break;
+            }
+
+            errorMessage.text(customErrorMessage);
+            errorMessage.show();
+        }
+
+        // Format timestamp
+        function formatTimestamp(timestamp) {
+            var date = new Date(timestamp);
+            var formattedDate = date.toLocaleDateString('en-GB', {
+                day: 'numeric',
+                month: 'numeric',
+                year: 'numeric',
+                hour: 'numeric',
+                minute: 'numeric',
+                second: 'numeric'
+            });
+            return formattedDate;
+        }
+
+        // Start stock update timer
+        function startStockUpdateTimer(symbol) {
+            timerIds[symbol] = setInterval(function () {
+                updateStockInformation(symbol);
+            }, 40000);
+        }
+
+        // Start blink animation
+        function startBlinkAnimation(element) {
+            blink(element, 3);
+        }
+
+        // Recursive blink function
+        function blink(element, times) {
+            if (times > 0) {
+                element.fadeOut(250, function() {
+                    element.fadeIn(250, function() {
+                        blink(element, times - 1);
+                    });
+                });
+            }
+        }
+
+        $(document).ready(function () {
+            // Assign global variables
+            symbolInput = $('#symbol-input');
+            searchForm = $('#search-form');
+            errorMessage = $('#error-message');
+            stockHistory = $('#stock-history');
+    
+            searchForm.submit(function (e) {
+                e.preventDefault();
+            
+                var symbol = symbolInput.val();
+                if (symbol) {
+                    updateStockInformation(symbol);  // Only fetch stock information
+                }
+    
+                symbolInput.val(''); // Clear the input field after the search
+            });
+    
+            // When the user starts typing, hide the error message
+            symbolInput.on('input', function() {
+                errorMessage.hide();
+            });
+    
+            $(document).on('click', '.remove-button', function () {
+                var stockItem = $(this).closest('.col-md-3');
+                var symbol = stockItem.find('.stock-symbol').text();
+                removeStockItem(symbol);
+            });
+        })
+    </script>
+}
