@@ -8,13 +8,55 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="30876486-efe3-4708-b179-55f437c09ce0" name="Changes" comment="" />
+    <list default="true" id="30876486-efe3-4708-b179-55f437c09ce0" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/FinnHubTest/Models/ApiException.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.FinnHubTest/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.FinnHubTest/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FinnHubTest/Controllers/HomeController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/FinnHubTest/Controllers/HomeController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FinnHubTest/Models/Stock.cs" beforeDir="false" afterPath="$PROJECT_DIR$/FinnHubTest/Models/Stock.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FinnHubTest/Services/FinnhubService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/FinnHubTest/Services/FinnhubService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FinnHubTest/Views/Home/Index.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/FinnHubTest/Views/Home/Index.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FinnHubTest/Views/Shared/_Layout.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/FinnHubTest/Views/Shared/_Layout.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FinnHubTest/bin/Debug/net7.0/FinnHubTest.dll" beforeDir="false" afterPath="$PROJECT_DIR$/FinnHubTest/bin/Debug/net7.0/FinnHubTest.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FinnHubTest/bin/Debug/net7.0/FinnHubTest.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/FinnHubTest/bin/Debug/net7.0/FinnHubTest.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FinnHubTest/bin/Debug/net7.0/FinnHubTest.staticwebassets.runtime.json" beforeDir="false" afterPath="$PROJECT_DIR$/FinnHubTest/bin/Debug/net7.0/FinnHubTest.staticwebassets.runtime.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FinnHubTest/obj/Debug/net7.0/FinnHubTest.dll" beforeDir="false" afterPath="$PROJECT_DIR$/FinnHubTest/obj/Debug/net7.0/FinnHubTest.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FinnHubTest/obj/Debug/net7.0/FinnHubTest.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/FinnHubTest/obj/Debug/net7.0/FinnHubTest.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FinnHubTest/obj/Debug/net7.0/ref/FinnHubTest.dll" beforeDir="false" afterPath="$PROJECT_DIR$/FinnHubTest/obj/Debug/net7.0/ref/FinnHubTest.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FinnHubTest/obj/Debug/net7.0/refint/FinnHubTest.dll" beforeDir="false" afterPath="$PROJECT_DIR$/FinnHubTest/obj/Debug/net7.0/refint/FinnHubTest.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FinnHubTest/obj/Debug/net7.0/staticwebassets.build.json" beforeDir="false" afterPath="$PROJECT_DIR$/FinnHubTest/obj/Debug/net7.0/staticwebassets.build.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FinnHubTest/obj/Debug/net7.0/staticwebassets.development.json" beforeDir="false" afterPath="$PROJECT_DIR$/FinnHubTest/obj/Debug/net7.0/staticwebassets.development.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FinnHubTest/obj/Debug/net7.0/staticwebassets.pack.json" beforeDir="false" afterPath="$PROJECT_DIR$/FinnHubTest/obj/Debug/net7.0/staticwebassets.pack.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FinnHubTest/obj/Debug/net7.0/staticwebassets/msbuild.FinnHubTest.Microsoft.AspNetCore.StaticWebAssets.props" beforeDir="false" afterPath="$PROJECT_DIR$/FinnHubTest/obj/Debug/net7.0/staticwebassets/msbuild.FinnHubTest.Microsoft.AspNetCore.StaticWebAssets.props" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FinnHubTest/wwwroot/css/site.css" beforeDir="false" afterPath="$PROJECT_DIR$/FinnHubTest/wwwroot/css/site.css" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="1e0eff61-31ca-41ba-a0ad-b80f6bc838f4" />
+        <option name="url" value="https://github.com/wretch45/FinnHubTest.git" />
+      </UrlAndAccount>
+    </option>
+  </component>
+  <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProjectId" id="2S18MwPoGgVCEOlv4wQBiEagWnC" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -78,12 +120,24 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1688302682978</updated>
-      <workItem from="1688302684105" duration="31176000" />
+      <workItem from="1688302684105" duration="62096000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />

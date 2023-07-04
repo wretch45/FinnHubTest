@@ -2,23 +2,22 @@
 
 <div class="container">
     <div class="row mt-5">
-        <div class="col-md-6 offset-md-3">
-            <div class="card">
-                <div class="card-header">
-                    <h2 class="text-center">Symbol Search</h2>
-                </div>
-                <div class="card-body">
-                    <form id="search-form">
-                        <div class="input-group mb-3">
-                            <input type="text" id="symbol-input" class="form-control" placeholder="Enter a stock symbol">
-                            <div class="input-group-append">
-                                <button type="submit" id="search-button" class="btn btn-primary">Search</button>
-                            </div>
-                        </div>
-                        <div id="error-message" class="mt-3 alert alert-danger" style="display: none;"></div>
-                    </form>
-                </div>
-            </div>
+        <div class="col-md-8 offset-md-2">
+            <!-- Search form -->
+            <form id="search-form" class="input-group mb-3">
+                <input type="text" id="symbol-input" class="form-control"
+                        style="border-top-left-radius: 20px; border-bottom-left-radius: 20px; 
+                        border-right: none; box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);" 
+                        placeholder="Enter a stock symbol" autocomplete="off">
+                <button type="submit" id="search-button" 
+                        class="btn btn-primary" 
+                        style="border-top-right-radius: 20px; border-bottom-right-radius: 20px;
+                        box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);">Search</button>
+                <!-- Search results dropdown -->
+                <div id="search-results" class="dropdown-menu dropdown-menu-right"
+                     style="border-radius: 20px; box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);"></div>
+            </form>
+            <div id="error-message" class="mt-3 alert alert-danger" style="display: none;"></div>
         </div>
     </div>
     <div class="row mt-5 justify-content-center" id="stock-history"></div>
@@ -32,6 +31,48 @@
         var symbolInput, searchForm, errorMessage, stockHistory, stocks = {}, maxStockCount = 4, timerIds = {};
         var requestTimestamps = [];
         var maxRequestsPerMinute = 30;
+        var searchResults;
+
+        // Search for a symbol
+        function searchSymbol(query) {
+            if (!checkRateLimit()) {
+                displayErrorMessage('Rate limit exceeded. Please wait for a while before making more requests.');
+                return;
+            }
+        
+            $.ajax({
+                url: '@Url.Action("SearchSymbol", "Home")',
+                type: 'GET',
+                data: { query: query },
+                success: function (result) {
+                    if (result.error) {
+                        displayErrorMessage(result.error);
+                    } else {
+                        // Populate the dropdown list with the search results
+                        searchResults.empty();
+                        for (var i = 0; i < Math.min(result.length, 10); i++) { // Limit the number of results to 10
+                            var listItem = $('<a class="dropdown-item" href="#"></a>').text("(" + result[i].symbol + ") " + result[i].description);
+                            listItem.on('click', function(e) {
+                                e.preventDefault();
+                                // When a list item is clicked, update the symbol input field and clear the search results
+                                symbolInput.val($(this).text());
+                                searchResults.empty();
+                                // Trigger form submission
+                                searchForm.submit();
+                            });
+                            searchResults.append(listItem);
+                        }
+                        searchResults.show();
+                    }
+                },
+                error: function () {
+                    displayErrorMessage('Failed to search due to a network error. Please try again.');
+                },
+                complete: function() {
+                    recordRequestTimestamp();
+                }
+            });
+        }
 
         // Fetch stock information
         function updateStockInformation(symbol) {
@@ -52,13 +93,14 @@
                     }
                 },
                 error: function () {
-                    displayErrorMessage('Failed to retrieve stock information due to a network error. Please try again.');
+                    displayErrorMessage('Failed to fetch stock information due to a network error. Please try again.');
                 },
                 complete: function() {
                     recordRequestTimestamp();
                 }
             });
         }
+
 
         // Fetch stock name
         function getStockName(symbol) {
@@ -98,6 +140,19 @@
                 var stockItem = stocks[symbol];
                 stockItem.find('.stock-price').text(stock.price.toFixed(2)); // Round to two decimal places
                 stockItem.find('.stock-timestamp').text(formatTimestamp(stock.timestamp));
+                stockItem.find('.percent-change').text(stock.percentChange.toFixed(2) + "%");
+        
+                // Change the color and direction of the triangle based on the change direction
+                if (stock.percentChange > 0) {
+                    stockItem.find('.percent-change').css('color', 'green');
+                    stockItem.find('.change-indicator').html('▲');
+                    stockItem.find('.change-indicator').css('color', 'green');
+                } else if (stock.percentChange < 0) {
+                    stockItem.find('.percent-change').css('color', 'red');
+                    stockItem.find('.change-indicator').html('▼');
+                    stockItem.find('.change-indicator').css('color', 'red');
+                }
+        
                 startBlinkAnimation(stockItem.find('.live-indicator'));
             } else {
                 createStockItem(symbol, '');
@@ -113,12 +168,18 @@
             }
         
             var stockItemHTML = `
-            <div class="col-md-3 mb-4"> <!-- Added mb-4 class for spacing between cards on mobile -->
-                <div class="card mb-3">
-                    <div class="card-header d-flex justify-content-between align-items-center">
+            <div class="col-md-3 mb-4">
+                <div class="card mb-3" 
+                    style="border-radius: 20px; box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);">
+                    <div class="card-header d-flex justify-content-between align-items-center"
+                        style="border-top-left-radius: 20px; border-top-right-radius: 20px;">
                         <div>
                             <h5 class="card-title mb-0 stock-name">${name}</h5>
-                            <small class="card-subtitle text-muted stock-symbol">${symbol}</small>
+                            <div style="display: flex; align-items: center;">
+                                <small class="card-subtitle text-muted stock-symbol">${symbol}</small>
+                                <div class="change-indicator stock-subtitle"></div>
+                                <small class="percent-change stock-subtitle"></small>
+                            </div>
                         </div>
                         <div class="live-indicator"></div>
                     </div>
@@ -140,6 +201,7 @@
             startBlinkAnimation(stockItem.find('.live-indicator'));
             getStockName(symbol);
         }
+
 
 
         // Check rate limit
@@ -233,28 +295,85 @@
             searchForm = $('#search-form');
             errorMessage = $('#error-message');
             stockHistory = $('#stock-history');
-    
+            searchResults = $('#search-results');
+        
+            // When the user starts typing in the search field, send an AJAX request to the server
+            symbolInput.on('input', function() {
+                var query = symbolInput.val();
+                if (query) {
+                    searchSymbol(query);
+                } else {
+                    searchResults.empty();  // Clear the search results when the input field is cleared
+                    hideDropdown();  // Hide the dropdown when the input field is cleared
+                }
+            });
+        
             searchForm.submit(function (e) {
                 e.preventDefault();
             
-                var symbol = symbolInput.val();
+                var inputVal = symbolInput.val();
+                var match = inputVal.match(/\(([^)]+)\)/); // Regular expression to match text within brackets
+                var symbol;
+            
+                if (match) {
+                    // If a match was found, set the symbol to it
+                    symbol = match[1];
+                } else {
+                    // If no match was found (i.e., the user typed in a stock symbol directly), use the input value as it is
+                    symbol = inputVal;
+                }
+            
                 if (symbol) {
                     updateStockInformation(symbol);  // Only fetch stock information
                 }
-    
+            
                 symbolInput.val(''); // Clear the input field after the search
+                searchResults.empty();  // Clear the search results after the search
+                hideDropdown();  // Hide the dropdown after the search
             });
-    
+        
             // When the user starts typing, hide the error message
             symbolInput.on('input', function() {
                 errorMessage.hide();
             });
-    
+        
             $(document).on('click', '.remove-button', function () {
                 var stockItem = $(this).closest('.col-md-3');
                 var symbol = stockItem.find('.stock-symbol').text();
                 removeStockItem(symbol);
             });
-        })
+
+        
+            // Attach event listener to the search button
+            document.getElementById('search-button').addEventListener('click', function() {
+                // Hide the dropdown when the search button is clicked
+                hideDropdown();
+            });
+        
+            // Attach event listener to the document to listen for clicks outside the dropdown
+            document.addEventListener('click', function(event) {
+                var dropdown = document.getElementById('search-results');
+                // If the clicked element is not the dropdown or a descendant of the dropdown
+                if (!dropdown.contains(event.target)) {
+                    // Hide the dropdown when you click outside of it
+                    hideDropdown();
+                }
+            });
+        
+            // Function to hide the dropdown
+            function hideDropdown() {
+                // Set display to 'none' to hide it
+                searchResults.css('display', 'none');
+            }
+        
+            // Function to show the dropdown
+            function showDropdown() {
+                // If the dropdown is not empty
+                if (searchResults.html().trim() != '') {
+                    // Set display to 'block' to show it
+                    searchResults.css('display', 'block');
+                }
+            }
+        });
     </script>
 }

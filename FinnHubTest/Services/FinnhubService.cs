@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using FinnHubTest.Models;
+using System.Linq;
 
 namespace FinnHubTest.Services
 {
@@ -18,6 +19,35 @@ namespace FinnHubTest.Services
             _httpClient = httpClient;
         }
 
+        public async Task<List<ResultItem>> SearchSymbol(string query)
+        {
+            var url = $"{BaseUrl}search?q={query}&token={ApiKey}";
+
+            using var response = await _httpClient.GetAsync(url);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                // Handle API request failure
+                throw new Exception($"Failed to retrieve stock information. Status code: {response.StatusCode}");
+            }
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+            // Deserialize the response JSON
+            var searchResult = JsonSerializer.Deserialize<SearchResult>(responseContent);
+
+            if (searchResult != null && searchResult.Count > 0)
+            {
+                // Order the result by the length of the symbol in ascending order
+                return searchResult.Result.OrderBy(r => r.Symbol.Length).ToList();
+            }
+
+            // If no results are found, return an empty list
+            return new List<ResultItem>();
+        }
+
+
+        
         public async Task<Stock> GetStockInformation(string symbol)
         {
             var url = $"{BaseUrl}quote?symbol={symbol}&token={ApiKey}";
@@ -39,11 +69,13 @@ namespace FinnHubTest.Services
             {
                 Symbol = symbol,
                 Price = decimal.Parse(stockData["c"].ToString()),
-                Timestamp = long.Parse(stockData["t"].ToString()) * 1000 // Convert from seconds to milliseconds
+                Timestamp = long.Parse(stockData["t"].ToString()) * 1000, // Convert from seconds to milliseconds
+                PercentChange = decimal.Parse(stockData["dp"].ToString()) // Add this line
             };
 
             return stock;
         }
+
 
         public async Task<string> GetStockName(string symbol)
         {

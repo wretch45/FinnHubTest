@@ -31,6 +31,19 @@ public class HomeController : Controller
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 
+    [HttpGet]
+    public async Task<IActionResult> SearchSymbol(string query)
+    {
+        var searchResultItems = await _finnhubService.SearchSymbol(query);
+
+        if (searchResultItems.Count == 0)
+        {
+            return Json(new { error = "No matching symbols found." });
+        }
+
+        return Json(searchResultItems);
+    }
+
     public async Task<IActionResult> GetStockInformation(string symbol)
     {
         var stock = await _finnhubService.GetStockInformation(symbol);
@@ -45,9 +58,11 @@ public class HomeController : Controller
             timestamp = DateTimeOffset.FromUnixTimeMilliseconds(stock.Timestamp).ToLocalTime()
                 .ToString("yyyy-MM-dd HH:mm:ss"),
             symbol = stock.Symbol,
-            price = stock.Price
+            price = stock.Price,
+            percentChange = stock.PercentChange
         });
     }
+
 
     public async Task<IActionResult> GetStockName(string symbol)
     {
