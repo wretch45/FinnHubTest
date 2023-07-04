@@ -33,11 +33,6 @@ body {
   border-right: none;
 }
 
-.errorMessage {
-  color: #dc3545;
-  font-weight: bold;
-}
-
 .dropdown-menu {
   max-height: 200px;
   overflow-y: auto;
@@ -121,3 +116,9 @@ body {
   animation-duration: 0.5s;
   animation-iteration-count: 3;
 }
+
+#error-message {
+  border-radius: 12px; /* slight rounding for all devices */
+  z-index: 9999; /* ensure it appears above other elements */
+}
+
