@@ -44,18 +44,20 @@
 
         // Search for a symbol
         function searchSymbol(query) {
+            // Rate limiting
             if (!checkRateLimit()) {
-                displayErrorMessage('Rate limit exceeded. Please wait for a while before making more requests.');
+                displayMessage('Rate limit exceeded. Please wait a while before making more requests.');
                 return;
             }
-        
+
+            // Ajax request to search for symbol
             $.ajax({
                 url: '@Url.Action("SearchSymbol", "Home")',
                 type: 'GET',
                 data: { query: query },
                 success: function (result) {
                     if (result.error) {
-                        displayErrorMessage(result.error);
+                        displayMessage(result.error);
                     } else {
                         // Populate the dropdown list with the search results
                         searchResults.empty();
@@ -75,7 +77,7 @@
                     }
                 },
                 error: function () {
-                    displayErrorMessage('Failed to search due to a network error. Please try again.');
+                    displayMessage('Failed to search due to a network error. Please try again.');
                 },
                 complete: function() {
                     recordRequestTimestamp();
@@ -85,24 +87,26 @@
 
         // Fetch stock information
         function updateStockInformation(symbol) {
+            // Rate limiting
             if (!checkRateLimit()) {
-                displayErrorMessage('Rate limit exceeded. Please wait for a while before making more requests.');
+                displayMessage('Rate limit exceeded. Please wait a while before making more requests.');
                 return;
             }
-        
+
+            // Ajax request to update stock information
             $.ajax({
                 url: '@Url.Action("GetStockInformation", "Home")',
                 type: 'GET',
                 data: { symbol: symbol },
                 success: function (result) {
                     if (result.error) {
-                        displayErrorMessage(result.error);
+                        displayMessage(result.error);
                     } else {
                         displayStockInformation(symbol, result);
                     }
                 },
                 error: function () {
-                    displayErrorMessage('Failed to fetch stock information due to a network error. Please try again.');
+                    displayMessage('Failed to fetch stock information due to a network error. Please try again.');
                 },
                 complete: function() {
                     recordRequestTimestamp();
@@ -113,29 +117,26 @@
 
         // Fetch stock name
         function getStockName(symbol) {
+            // Rate limiting
             if (!checkRateLimit()) {
-                displayErrorMessage('Rate limit exceeded. Please wait for a while before making more requests.');
+                displayMessage('Rate limit exceeded. Please wait a while before making more requests.');
                 return;
             }
-        
+
+            // Ajax request to fetch stock name
             $.ajax({
                 url: '@Url.Action("GetStockName", "Home")',
                 type: 'GET',
                 data: { symbol: symbol },
                 success: function (result) {
-                    if (stocks.hasOwnProperty(symbol)) {
-                        var stockItem = stocks[symbol];
-                        stockItem.find('.stock-name').text(result.name);
-                        stockItem.show();  // Show the stock card only after the stock name has been fetched
-                        stockItem.find('.card-spinner').hide();  // Hide the spinner when the stock name is fetched
+                    if (result.error) {
+                        displayMessage(result.error);
                     } else {
-                        createStockItem(symbol, result.name);
+                        stocks[symbol].find('.stock-name').text(result.name);
                     }
                 },
                 error: function () {
-                    if (!stocks.hasOwnProperty(symbol)) {
-                        createStockItem(symbol, 'Unknown Stock');
-                    }
+                    displayMessage('Failed to fetch stock name due to a network error. Please try again.');
                 },
                 complete: function() {
                     recordRequestTimestamp();
@@ -164,7 +165,7 @@
         
                 startBlinkAnimation(stockItem.find('.live-indicator'));
             } else {
-                createStockItem(symbol, '');
+                createStockItem(symbol);
                 displayStockInformation(symbol, stock);
             }
         }
@@ -183,7 +184,7 @@
                     <div class="card-header d-flex justify-content-between align-items-center"
                         style="border-top-left-radius: 20px; border-top-right-radius: 20px;">
                         <div>
-                            <h5 class="card-title mb-0 stock-name">${name}</h5>
+                            <h5 class="card-title mb-0 stock-name"></h5>
                             <div style="display: flex; align-items: center;">
                                 <small class="card-subtitle text-muted stock-symbol">${symbol}</small>
                                 <div class="change-indicator stock-subtitle"></div>
@@ -235,6 +236,26 @@
             }
         }
         
+        // Add stock to favorite
+        function addFavoriteStock(symbol) {
+            $.ajax({
+                url: '@Url.Action("Add", "Favorites")',
+                type: 'POST',
+                data: { symbol: symbol },
+            success: function (result) {
+                if (result.error) {
+                    displayMessage(result.error);
+                } else {
+                    displayMessage('Stock added to favorites!', true);
+                }
+            },
+            error: function () {
+                displayMessage('Failed to add favorite due to a network error. Please try again.');
+                }
+            });
+        }
+
+        
         // Stop stock update timer
         function stopStockUpdateTimer(symbol) {
             if (timerIds.hasOwnProperty(symbol)) {
@@ -243,22 +264,16 @@
             }
         }
 
-
-        // Display error message
-        function displayErrorMessage(error) {
-            var customErrorMessage = '';
-
-            switch (error) {
-                case 'Invalid ticker symbol or stock information not available.':
-                    customErrorMessage = 'The entered symbol is invalid or stock information is not available.';
-                    break;
-                default:
-                    customErrorMessage = 'An error occurred. Please try again.';
-                    break;
+        // Display message
+        function displayMessage(message, isSuccess = false) {
+            if (isSuccess) {
+                errorMessage.removeClass('alert-danger').addClass('alert-success');
+            } else {
+                errorMessage.removeClass('alert-success').addClass('alert-danger');
             }
-
-            errorMessage.text(customErrorMessage);
+            errorMessage.text(message);
             errorMessage.show();
+            setTimeout(function(){ errorMessage.hide(); }, 3000); 
         }
 
         // Format timestamp
@@ -351,7 +366,12 @@
                 var symbol = stockItem.find('.stock-symbol').text();
                 removeStockItem(symbol);
             });
-
+            
+            $(document).on('click', '.favorite-button', function () {
+                var stockItem = $(this).closest('.col-md-3');
+                var symbol = stockItem.find('.stock-symbol').text();
+                addFavoriteStock(symbol);
+            });
         
             // Attach event listener to the search button
             document.getElementById('search-button').addEventListener('click', function() {
