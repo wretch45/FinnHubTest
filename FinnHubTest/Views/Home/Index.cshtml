@@ -29,12 +29,12 @@
             </div>
         </div>
     </div>
-
 </div>
 
 
 @section Scripts {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="~/js/site.js"></script>
     <script>
         // Define global variables
         var symbolInput, searchForm, errorMessage, stockHistory, stocks = {}, maxStockCount = 4, timerIds = {};
@@ -49,7 +49,7 @@
                 displayMessage('Rate limit exceeded. Please wait a while before making more requests.');
                 return;
             }
-
+        
             // Ajax request to search for symbol
             $.ajax({
                 url: '@Url.Action("SearchSymbol", "Home")',
@@ -148,8 +148,8 @@
         function displayStockInformation(symbol, stock) {
             if (stocks.hasOwnProperty(symbol)) {
                 var stockItem = stocks[symbol];
-                stockItem.find('.stock-price').text(stock.price.toFixed(2)); // Round to two decimal places
-                stockItem.find('.stock-timestamp').text(formatTimestamp(stock.timestamp));
+                stockItem.find('.stock-price').text(stock.currentPrice.toFixed(2)); // Round to two decimal places
+                stockItem.find('.stock-timestamp').text(stock.timestamp);
                 stockItem.find('.percent-change').text(stock.percentChange.toFixed(2) + "%");
         
                 // Change the color and direction of the triangle based on the change direction
@@ -242,15 +242,15 @@
                 url: '@Url.Action("Add", "Favorites")',
                 type: 'POST',
                 data: { symbol: symbol },
-            success: function (result) {
-                if (result.error) {
-                    displayMessage(result.error);
-                } else {
-                    displayMessage('Stock added to favorites!', true);
-                }
-            },
-            error: function () {
-                displayMessage('Failed to add favorite due to a network error. Please try again.');
+                success: function (result) {
+                    if (result.error) {
+                        displayMessage(result.error);
+                    } else if (result.success) {
+                        displayMessage(result.success, true);
+                    }
+                },
+                error: function () {
+                    displayMessage('Failed to add favorite due to a network error. Please try again.');
                 }
             });
         }
@@ -265,16 +265,6 @@
         }
 
         // Display message
-        function displayMessage(message, isSuccess = false) {
-            if (isSuccess) {
-                errorMessage.removeClass('alert-danger').addClass('alert-success');
-            } else {
-                errorMessage.removeClass('alert-success').addClass('alert-danger');
-            }
-            errorMessage.text(message);
-            errorMessage.show();
-            setTimeout(function(){ errorMessage.hide(); }, 3000); 
-        }
 
         // Format timestamp
         function formatTimestamp(timestamp) {
@@ -361,12 +351,14 @@
                 errorMessage.hide();
             });
         
+            // Remove click event
             $(document).on('click', '.remove-button', function () {
                 var stockItem = $(this).closest('.col-md-3');
                 var symbol = stockItem.find('.stock-symbol').text();
                 removeStockItem(symbol);
             });
             
+            // Favorite click event
             $(document).on('click', '.favorite-button', function () {
                 var stockItem = $(this).closest('.col-md-3');
                 var symbol = stockItem.find('.stock-symbol').text();

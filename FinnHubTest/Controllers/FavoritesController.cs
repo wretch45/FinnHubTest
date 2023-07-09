@@ -46,6 +46,18 @@ public class FavoritesController : Controller
     public async Task<IActionResult> Add(string symbol)
     {
         var user = await _userManager.GetUserAsync(User);
+
+        // Check if favorite already exists for this user
+        var existingFavorite = await _context.Favorites
+            .FirstOrDefaultAsync(f => f.UserId == user.Id && f.Symbol == symbol);
+
+        // If it exists, return an error message
+        if (existingFavorite != null)
+        {
+            return Json(new { error = "This stock is already in your favorites." });
+        }
+
+        // If it doesn't exist, add it
         var favorite = new Favorite
         {
             UserId = user.Id,
@@ -54,8 +66,7 @@ public class FavoritesController : Controller
 
         _context.Favorites.Add(favorite);
         await _context.SaveChangesAsync();
-
-        return RedirectToAction(nameof(Index));
+        return Json(new { success = "Stock added to favorites." });
     }
 
     [HttpPost]
@@ -73,5 +84,25 @@ public class FavoritesController : Controller
         }
 
         return RedirectToAction(nameof(Index));
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetFavoriteStocks()
+    {
+        List<Stock> favoriteStocks = new List<Stock>();
+        var user = await _userManager.GetUserAsync(User);
+        
+        var favoriteSymbols = await _context.Favorites
+            .Where(f => f.UserId == user.Id)
+            .Select(f => f.Symbol)
+            .ToListAsync();
+
+        foreach (var symbol in favoriteSymbols)
+        {
+            var stock = await _finnhubService.GetStockInformation(symbol);
+            favoriteStocks.Add(stock);
+        }
+
+        return Json(favoriteStocks);
     }
 }

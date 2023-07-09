@@ -38,13 +38,17 @@ namespace FinnHubTest.Services
 
             if (searchResult != null && searchResult.Count > 0)
             {
+                // Filter the results to only include items of type "Common Stock"
+                var commonStockResults = searchResult.Result.Where(r => r.Type == "Common Stock").ToList();
+
                 // Order the result by the length of the symbol in ascending order
-                return searchResult.Result.OrderBy(r => r.Symbol.Length).ToList();
+                return commonStockResults.OrderBy(r => r.Symbol.Length).ToList();
             }
 
             // If no results are found, return an empty list
             return new List<ResultItem>();
         }
+
 
 
         
@@ -68,13 +72,19 @@ namespace FinnHubTest.Services
             var stock = new Stock
             {
                 Symbol = symbol,
-                Price = decimal.Parse(stockData["c"].ToString()),
-                Timestamp = long.Parse(stockData["t"].ToString()) * 1000, // Convert from seconds to milliseconds
-                PercentChange = decimal.Parse(stockData["dp"].ToString()) // Add this line
+                CurrentPrice = decimal.Parse(stockData["c"].ToString()),
+                Change = decimal.Parse(stockData["d"].ToString()),
+                PercentChange = decimal.Parse(stockData["dp"].ToString()),
+                HighPriceOfDay = decimal.Parse(stockData["h"].ToString()),
+                LowPriceOfDay = decimal.Parse(stockData["l"].ToString()),
+                OpenPriceOfDay = decimal.Parse(stockData["o"].ToString()),
+                PreviousClosePrice = decimal.Parse(stockData["pc"].ToString()),
+                Timestamp = long.Parse(stockData["t"].ToString()) * 1000  // Convert from seconds to milliseconds
             };
 
             return stock;
         }
+
 
 
         public async Task<string> GetStockName(string symbol)

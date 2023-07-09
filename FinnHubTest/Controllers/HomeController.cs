@@ -48,7 +48,7 @@ public class HomeController : Controller
     {
         var stock = await _finnhubService.GetStockInformation(symbol);
 
-        if (stock == null || stock.Price == 0)
+        if (stock == null || stock.CurrentPrice == 0)
         {
             return Json(new { error = "Invalid ticker symbol or stock information not available." });
         }
@@ -58,8 +58,13 @@ public class HomeController : Controller
             timestamp = DateTimeOffset.FromUnixTimeMilliseconds(stock.Timestamp).ToLocalTime()
                 .ToString("yyyy-MM-dd HH:mm:ss"),
             symbol = stock.Symbol,
-            price = stock.Price,
-            percentChange = stock.PercentChange
+            currentPrice = stock.CurrentPrice,
+            change = stock.Change,
+            percentChange = stock.PercentChange,
+            highPriceOfDay = stock.HighPriceOfDay,
+            lowPriceOfDay = stock.LowPriceOfDay,
+            openPriceOfDay = stock.OpenPriceOfDay,
+            previousClosePrice = stock.PreviousClosePrice
         });
     }
 
