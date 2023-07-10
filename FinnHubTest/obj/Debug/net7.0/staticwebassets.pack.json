@@ -9,16 +9,8 @@
       "PackagePath": "staticwebassets/.DS_Store"
     },
     {
-      "Id": "/Users/lenbauer/RiderProjects/FinnHubTest/FinnHubTest/wwwroot/Dual Ball-1s-104px.gif",
-      "PackagePath": "staticwebassets/Dual Ball-1s-104px.gif"
-    },
-    {
       "Id": "/Users/lenbauer/RiderProjects/FinnHubTest/FinnHubTest/wwwroot/css/site.css",
       "PackagePath": "staticwebassets/css/site.css"
-    },
-    {
-      "Id": "/Users/lenbauer/RiderProjects/FinnHubTest/FinnHubTest/wwwroot/favicon.ico",
-      "PackagePath": "staticwebassets/favicon.ico"
     },
     {
       "Id": "/Users/lenbauer/RiderProjects/FinnHubTest/FinnHubTest/wwwroot/js/site.js",

@@ -17,6 +17,7 @@
         <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="7.0.7" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.7" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.7" />
+        <PackageReference Include="NLog" Version="5.2.2" />
     </ItemGroup>
 
 </Project>

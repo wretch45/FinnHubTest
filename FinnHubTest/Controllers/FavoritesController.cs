@@ -9,11 +9,11 @@ using FinnHubTest.Data;
 [Authorize]
 public class FavoritesController : Controller
 {
-    private readonly FinnhubService _finnhubService;
+    private readonly IFinnhubService _finnhubService;
     private readonly UserManager<IdentityUser> _userManager;
     private readonly ApplicationDbContext _context;
 
-    public FavoritesController(FinnhubService finnhubService, UserManager<IdentityUser> userManager, ApplicationDbContext context)
+    public FavoritesController(IFinnhubService finnhubService, UserManager<IdentityUser> userManager, ApplicationDbContext context)
     {
         _finnhubService = finnhubService;
         _userManager = userManager;

@@ -4,7 +4,7 @@ using FinnHubTest.Models;
 
 namespace FinnHubTest.Services
 {
-    public class FinnhubService
+    public class FinnhubService : IFinnhubService
     {
         private readonly HttpClient _httpClient;
         private const string BaseUrl = "https://finnhub.io/api/v1/";

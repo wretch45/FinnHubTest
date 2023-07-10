@@ -8,32 +8,36 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="30876486-efe3-4708-b179-55f437c09ce0" name="Changes" comment="Full features added. (Need to fix minor warnings)">
-      <change afterPath="$PROJECT_DIR$/FinnHubTest/Data/Migrations/20230705005652_AddFavorites.Designer.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/FinnHubTest/Data/Migrations/20230705005652_AddFavorites.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/FinnHubTest/app.db-shm" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/FinnHubTest/app.db-wal" afterDir="false" />
+    <list default="true" id="30876486-efe3-4708-b179-55f437c09ce0" name="Changes" comment="Unversioned Files added.">
+      <change afterPath="$PROJECT_DIR$/FinnHubTest/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FinnHubTest/Services/IFinnhubService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.FinnHubTest/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.FinnHubTest/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FinnHubTest/Controllers/FavoritesController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/FinnHubTest/Controllers/FavoritesController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FinnHubTest/Models/ApiException.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/FinnHubTest/Models/Favorite.cs" beforeDir="false" afterPath="$PROJECT_DIR$/FinnHubTest/Models/Favorite.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FinnHubTest/Models/SearchResult.cs" beforeDir="false" afterPath="$PROJECT_DIR$/FinnHubTest/Models/SearchResult.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FinnHubTest/Models/Stock.cs" beforeDir="false" afterPath="$PROJECT_DIR$/FinnHubTest/Models/Stock.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FinnHubTest/Controllers/HomeController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/FinnHubTest/Controllers/HomeController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FinnHubTest/FinnHubTest.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/FinnHubTest/FinnHubTest.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FinnHubTest/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/FinnHubTest/Program.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FinnHubTest/Services/FinnhubService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/FinnHubTest/Services/FinnhubService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FinnHubTest/Views/Favorites/Index.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/FinnHubTest/Views/Favorites/Index.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FinnHubTest/Views/Home/Index.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/FinnHubTest/Views/Home/Index.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FinnHubTest/Views/Home/Privacy.cshtml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/FinnHubTest/app.db" beforeDir="false" afterPath="$PROJECT_DIR$/FinnHubTest/app.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FinnHubTest/app.db-shm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FinnHubTest/app.db-wal" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/FinnHubTest/bin/Debug/net7.0/FinnHubTest.dll" beforeDir="false" afterPath="$PROJECT_DIR$/FinnHubTest/bin/Debug/net7.0/FinnHubTest.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FinnHubTest/bin/Debug/net7.0/FinnHubTest.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/FinnHubTest/bin/Debug/net7.0/FinnHubTest.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FinnHubTest/bin/Debug/net7.0/app.db" beforeDir="false" afterPath="$PROJECT_DIR$/FinnHubTest/bin/Debug/net7.0/app.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FinnHubTest/obj/Debug/net7.0/FinnHubTest.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/FinnHubTest/obj/Debug/net7.0/FinnHubTest.csproj.CoreCompileInputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FinnHubTest/bin/Debug/net7.0/FinnHubTest.staticwebassets.runtime.json" beforeDir="false" afterPath="$PROJECT_DIR$/FinnHubTest/bin/Debug/net7.0/FinnHubTest.staticwebassets.runtime.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FinnHubTest/obj/Debug/net7.0/FinnHubTest.GeneratedMSBuildEditorConfig.editorconfig" beforeDir="false" afterPath="$PROJECT_DIR$/FinnHubTest/obj/Debug/net7.0/FinnHubTest.GeneratedMSBuildEditorConfig.editorconfig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FinnHubTest/obj/Debug/net7.0/FinnHubTest.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/FinnHubTest/obj/Debug/net7.0/FinnHubTest.assets.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FinnHubTest/obj/Debug/net7.0/FinnHubTest.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/FinnHubTest/obj/Debug/net7.0/FinnHubTest.csproj.AssemblyReference.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FinnHubTest/obj/Debug/net7.0/FinnHubTest.dll" beforeDir="false" afterPath="$PROJECT_DIR$/FinnHubTest/obj/Debug/net7.0/FinnHubTest.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FinnHubTest/obj/Debug/net7.0/FinnHubTest.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/FinnHubTest/obj/Debug/net7.0/FinnHubTest.pdb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FinnHubTest/obj/Debug/net7.0/ref/FinnHubTest.dll" beforeDir="false" afterPath="$PROJECT_DIR$/FinnHubTest/obj/Debug/net7.0/ref/FinnHubTest.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FinnHubTest/obj/Debug/net7.0/refint/FinnHubTest.dll" beforeDir="false" afterPath="$PROJECT_DIR$/FinnHubTest/obj/Debug/net7.0/refint/FinnHubTest.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FinnHubTest/wwwroot/Dual Ball-1s-104px.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/FinnHubTest/wwwroot/favicon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FinnHubTest/obj/Debug/net7.0/staticwebassets.build.json" beforeDir="false" afterPath="$PROJECT_DIR$/FinnHubTest/obj/Debug/net7.0/staticwebassets.build.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FinnHubTest/obj/Debug/net7.0/staticwebassets.development.json" beforeDir="false" afterPath="$PROJECT_DIR$/FinnHubTest/obj/Debug/net7.0/staticwebassets.development.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FinnHubTest/obj/Debug/net7.0/staticwebassets.pack.json" beforeDir="false" afterPath="$PROJECT_DIR$/FinnHubTest/obj/Debug/net7.0/staticwebassets.pack.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FinnHubTest/obj/Debug/net7.0/staticwebassets/msbuild.FinnHubTest.Microsoft.AspNetCore.StaticWebAssets.props" beforeDir="false" afterPath="$PROJECT_DIR$/FinnHubTest/obj/Debug/net7.0/staticwebassets/msbuild.FinnHubTest.Microsoft.AspNetCore.StaticWebAssets.props" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FinnHubTest/obj/FinnHubTest.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/FinnHubTest/obj/FinnHubTest.csproj.nuget.dgspec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FinnHubTest/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/FinnHubTest/obj/project.assets.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FinnHubTest/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/FinnHubTest/obj/project.nuget.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FinnHubTest/obj/project.packagespec.json" beforeDir="false" afterPath="$PROJECT_DIR$/FinnHubTest/obj/project.packagespec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FinnHubTest/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/FinnHubTest/obj/rider.project.restore.info" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,6 +64,9 @@
         <option name="url" value="https://github.com/wretch45/FinnHubTest.git" />
       </UrlAndAccount>
     </option>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProjectId" id="2S18MwPoGgVCEOlv4wQBiEagWnC" />
@@ -162,7 +169,23 @@
       <option name="project" value="LOCAL" />
       <updated>1688941410684</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Compile warnings fixed.">
+      <option name="closed" value="true" />
+      <created>1688948433429</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1688948433429</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Unversioned Files added.">
+      <option name="closed" value="true" />
+      <created>1688948458963</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1688948458963</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -186,6 +209,8 @@
     <MESSAGE value="Basic Favorites function and page added" />
     <MESSAGE value="Minor GUI Improvements to Favorites page" />
     <MESSAGE value="Full features added. (Need to fix minor warnings)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Full features added. (Need to fix minor warnings)" />
+    <MESSAGE value="Compile warnings fixed." />
+    <MESSAGE value="Unversioned Files added." />
+    <option name="LAST_COMMIT_MESSAGE" value="Unversioned Files added." />
   </component>
 </project>

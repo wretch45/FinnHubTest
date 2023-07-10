@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "0IxaiuxMNP0Y5STu/h7bODbvTgHaGiGXnGhXWrf7NpY=",
+  "Hash": "V34IMkUycwySMFk/oQFEtrBfLB8r+ty0ZZlZMvy7q28=",
   "Source": "FinnHubTest",
   "BasePath": "_content/FinnHubTest",
   "Mode": "Default",
@@ -1103,40 +1103,6 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/css/site.css"
-    },
-    {
-      "Identity": "/Users/lenbauer/RiderProjects/FinnHubTest/FinnHubTest/wwwroot/Dual Ball-1s-104px.gif",
-      "SourceId": "FinnHubTest",
-      "SourceType": "Discovered",
-      "ContentRoot": "/Users/lenbauer/RiderProjects/FinnHubTest/FinnHubTest/wwwroot/",
-      "BasePath": "_content/FinnHubTest",
-      "RelativePath": "Dual Ball-1s-104px.gif",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/Dual Ball-1s-104px.gif"
-    },
-    {
-      "Identity": "/Users/lenbauer/RiderProjects/FinnHubTest/FinnHubTest/wwwroot/favicon.ico",
-      "SourceId": "FinnHubTest",
-      "SourceType": "Discovered",
-      "ContentRoot": "/Users/lenbauer/RiderProjects/FinnHubTest/FinnHubTest/wwwroot/",
-      "BasePath": "_content/FinnHubTest",
-      "RelativePath": "favicon.ico",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/favicon.ico"
     },
     {
       "Identity": "/Users/lenbauer/RiderProjects/FinnHubTest/FinnHubTest/wwwroot/js/site.js",

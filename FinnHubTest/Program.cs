@@ -18,8 +18,8 @@ builder.Services.AddControllersWithViews();
 // Add HttpClient service registration
 builder.Services.AddHttpClient();
 
-// Register FinnhubService
-builder.Services.AddScoped<FinnhubService>();
+// Register IFinnhubService and its implementation FinnhubService
+builder.Services.AddScoped<IFinnhubService, FinnhubService>();
 
 var app = builder.Build();
 

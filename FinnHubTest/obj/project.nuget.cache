@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "K3rH1x0i/pXXHK7oiDcSsWvieFkEZ9cq51Giw/WpUGD7FeyLMgKdtCgmtTf96RcD5iy8T+1OMyLzZ5Nc7FVM9Q==",
+  "dgSpecHash": "y7gn7P2pvzwMrSVrYcdDY60YmRMIxt+DjM4uukbwNYlPvItikgKD9C9hI7t74FDpC+N6i+7hiAE8Gu8YoSxOCw==",
   "success": true,
   "projectFilePath": "/Users/lenbauer/RiderProjects/FinnHubTest/FinnHubTest/FinnHubTest.csproj",
   "expectedPackageFiles": [
@@ -34,6 +34,7 @@
     "/Users/lenbauer/.nuget/packages/microsoft.extensions.options/7.0.1/microsoft.extensions.options.7.0.1.nupkg.sha512",
     "/Users/lenbauer/.nuget/packages/microsoft.extensions.primitives/7.0.0/microsoft.extensions.primitives.7.0.0.nupkg.sha512",
     "/Users/lenbauer/.nuget/packages/mono.texttemplating/2.2.1/mono.texttemplating.2.2.1.nupkg.sha512",
+    "/Users/lenbauer/.nuget/packages/nlog/5.2.2/nlog.5.2.2.nupkg.sha512",
     "/Users/lenbauer/.nuget/packages/sqlitepclraw.bundle_e_sqlite3/2.1.4/sqlitepclraw.bundle_e_sqlite3.2.1.4.nupkg.sha512",
     "/Users/lenbauer/.nuget/packages/sqlitepclraw.core/2.1.4/sqlitepclraw.core.2.1.4.nupkg.sha512",
     "/Users/lenbauer/.nuget/packages/sqlitepclraw.lib.e_sqlite3/2.1.4/sqlitepclraw.lib.e_sqlite3.2.1.4.nupkg.sha512",
