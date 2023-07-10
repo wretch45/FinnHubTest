@@ -4,9 +4,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using FinnHubTest.Data;
 
 [Authorize]
@@ -28,6 +25,9 @@ public class FavoritesController : Controller
         List<Stock> favoriteStocks = new List<Stock>();
         var user = await _userManager.GetUserAsync(User);
         
+        if(user == null)
+            return BadRequest("User not found");
+
         var favoriteSymbols = await _context.Favorites
             .Where(f => f.UserId == user.Id)
             .Select(f => f.Symbol)
@@ -46,6 +46,9 @@ public class FavoritesController : Controller
     public async Task<IActionResult> Add(string symbol)
     {
         var user = await _userManager.GetUserAsync(User);
+
+        if(user == null)
+            return BadRequest("User not found");
 
         // Check if favorite already exists for this user
         var existingFavorite = await _context.Favorites
@@ -73,6 +76,10 @@ public class FavoritesController : Controller
     public async Task<IActionResult> Remove(string symbol)
     {
         var user = await _userManager.GetUserAsync(User);
+        
+        if(user == null)
+            return BadRequest("User not found");
+
         var favorite = await _context.Favorites
             .Where(f => f.UserId == user.Id && f.Symbol == symbol)
             .FirstOrDefaultAsync();
@@ -92,6 +99,9 @@ public class FavoritesController : Controller
         List<Stock> favoriteStocks = new List<Stock>();
         var user = await _userManager.GetUserAsync(User);
         
+        if(user == null)
+            return BadRequest("User not found");
+
         var favoriteSymbols = await _context.Favorites
             .Where(f => f.UserId == user.Id)
             .Select(f => f.Symbol)

@@ -1,10 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using FinnHubTest.Models;
-using System.Linq;
 
 namespace FinnHubTest.Services
 {
@@ -48,9 +44,6 @@ namespace FinnHubTest.Services
             // If no results are found, return an empty list
             return new List<ResultItem>();
         }
-
-
-
         
         public async Task<Stock> GetStockInformation(string symbol)
         {
@@ -69,24 +62,48 @@ namespace FinnHubTest.Services
             // Deserialize the response JSON
             var stockData = JsonSerializer.Deserialize<Dictionary<string, object>>(responseContent);
 
+            if(stockData == null)
+            {
+                throw new Exception("Unable to parse stock data.");
+            }
+
             var stock = new Stock
             {
                 Symbol = symbol,
-                CurrentPrice = decimal.Parse(stockData["c"].ToString()),
-                Change = decimal.Parse(stockData["d"].ToString()),
-                PercentChange = decimal.Parse(stockData["dp"].ToString()),
-                HighPriceOfDay = decimal.Parse(stockData["h"].ToString()),
-                LowPriceOfDay = decimal.Parse(stockData["l"].ToString()),
-                OpenPriceOfDay = decimal.Parse(stockData["o"].ToString()),
-                PreviousClosePrice = decimal.Parse(stockData["pc"].ToString()),
-                Timestamp = long.Parse(stockData["t"].ToString()) * 1000  // Convert from seconds to milliseconds
+                CurrentPrice = TryParseToDecimal(stockData["c"]),
+                Change = TryParseToDecimal(stockData["d"]),
+                PercentChange = TryParseToDecimal(stockData["dp"]),
+                HighPriceOfDay = TryParseToDecimal(stockData["h"]),
+                LowPriceOfDay = TryParseToDecimal(stockData["l"]),
+                OpenPriceOfDay = TryParseToDecimal(stockData["o"]),
+                PreviousClosePrice = TryParseToDecimal(stockData["pc"]),
+                Timestamp = TryParseToLong(stockData["t"]) * 1000  // Convert from seconds to milliseconds
             };
 
             return stock;
         }
 
+        private decimal TryParseToDecimal(object value)
+        {
+            if(value != null)
+            {
+                decimal.TryParse(value.ToString(), out var result);
+                return result;
+            }
+            return 0;
+        }
 
+        private long TryParseToLong(object value)
+        {
+            if(value != null)
+            {
+                long.TryParse(value.ToString(), out var result);
+                return result;
+            }
+            return 0;
+        }
 
+        
         public async Task<string> GetStockName(string symbol)
         {
             var url = $"{BaseUrl}search?q={symbol}&token={ApiKey}";

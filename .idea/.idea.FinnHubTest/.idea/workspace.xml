@@ -8,15 +8,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="30876486-efe3-4708-b179-55f437c09ce0" name="Changes" comment="Minor GUI Improvements to Favorites page">
+    <list default="true" id="30876486-efe3-4708-b179-55f437c09ce0" name="Changes" comment="Full features added. (Need to fix minor warnings)">
+      <change afterPath="$PROJECT_DIR$/FinnHubTest/Data/Migrations/20230705005652_AddFavorites.Designer.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FinnHubTest/Data/Migrations/20230705005652_AddFavorites.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FinnHubTest/app.db-shm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FinnHubTest/app.db-wal" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.FinnHubTest/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.FinnHubTest/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FinnHubTest/Controllers/FavoritesController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/FinnHubTest/Controllers/FavoritesController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FinnHubTest/Controllers/HomeController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/FinnHubTest/Controllers/HomeController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FinnHubTest/Models/ApiException.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FinnHubTest/Models/Favorite.cs" beforeDir="false" afterPath="$PROJECT_DIR$/FinnHubTest/Models/Favorite.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FinnHubTest/Models/SearchResult.cs" beforeDir="false" afterPath="$PROJECT_DIR$/FinnHubTest/Models/SearchResult.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FinnHubTest/Models/Stock.cs" beforeDir="false" afterPath="$PROJECT_DIR$/FinnHubTest/Models/Stock.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FinnHubTest/Services/FinnhubService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/FinnHubTest/Services/FinnhubService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FinnHubTest/Views/Favorites/Index.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/FinnHubTest/Views/Favorites/Index.cshtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FinnHubTest/Views/Home/Index.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/FinnHubTest/Views/Home/Index.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FinnHubTest/Views/Shared/_Layout.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/FinnHubTest/Views/Shared/_Layout.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FinnHubTest/Views/Home/Privacy.cshtml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/FinnHubTest/app.db" beforeDir="false" afterPath="$PROJECT_DIR$/FinnHubTest/app.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FinnHubTest/bin/Debug/net7.0/FinnHubTest.dll" beforeDir="false" afterPath="$PROJECT_DIR$/FinnHubTest/bin/Debug/net7.0/FinnHubTest.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FinnHubTest/bin/Debug/net7.0/FinnHubTest.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/FinnHubTest/bin/Debug/net7.0/FinnHubTest.pdb" afterDir="false" />
@@ -26,7 +32,8 @@
       <change beforePath="$PROJECT_DIR$/FinnHubTest/obj/Debug/net7.0/FinnHubTest.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/FinnHubTest/obj/Debug/net7.0/FinnHubTest.pdb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FinnHubTest/obj/Debug/net7.0/ref/FinnHubTest.dll" beforeDir="false" afterPath="$PROJECT_DIR$/FinnHubTest/obj/Debug/net7.0/ref/FinnHubTest.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FinnHubTest/obj/Debug/net7.0/refint/FinnHubTest.dll" beforeDir="false" afterPath="$PROJECT_DIR$/FinnHubTest/obj/Debug/net7.0/refint/FinnHubTest.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FinnHubTest/wwwroot/js/site.js" beforeDir="false" afterPath="$PROJECT_DIR$/FinnHubTest/wwwroot/js/site.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FinnHubTest/wwwroot/Dual Ball-1s-104px.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FinnHubTest/wwwroot/favicon.ico" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -147,7 +154,15 @@
       <option name="project" value="LOCAL" />
       <updated>1688568881878</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Full features added. (Need to fix minor warnings)">
+      <option name="closed" value="true" />
+      <created>1688941410684</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1688941410684</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -170,6 +185,7 @@
     <MESSAGE value="StockMasters" />
     <MESSAGE value="Basic Favorites function and page added" />
     <MESSAGE value="Minor GUI Improvements to Favorites page" />
-    <option name="LAST_COMMIT_MESSAGE" value="Minor GUI Improvements to Favorites page" />
+    <MESSAGE value="Full features added. (Need to fix minor warnings)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Full features added. (Need to fix minor warnings)" />
   </component>
 </project>
