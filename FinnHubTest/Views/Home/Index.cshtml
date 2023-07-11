@@ -253,13 +253,19 @@
                         displayMessage(result.success, true);
                     }
                 },
-                error: function () {
-                    displayMessage('Failed to add favorite due to a network error. Please try again.');
+                error: function (jqXHR, textStatus, errorThrown) {
+                    if (jqXHR.status === 401) {
+                        // Handle user is not logged in
+                         displayMessage('Please Login to add to favorites.');
+                    } else {
+                        displayMessage('Failed to add favorite due to a network error. Please try again.');
+                    }
                 }
             });
         }
 
-        
+
+
         // Stop stock update timer
         function stopStockUpdateTimer(symbol) {
             if (timerIds.hasOwnProperty(symbol)) {

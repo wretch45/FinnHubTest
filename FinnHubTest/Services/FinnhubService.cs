@@ -1,6 +1,11 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using FinnHubTest.Models;
+using Microsoft.Extensions.Logging;
 
 namespace FinnHubTest.Services
 {
@@ -9,80 +14,95 @@ namespace FinnHubTest.Services
         private readonly HttpClient _httpClient;
         private const string BaseUrl = "https://finnhub.io/api/v1/";
         private const string ApiKey = "cie7kvhr01qmfas4a580cie7kvhr01qmfas4a58g";
+        private readonly ILogger<FinnhubService> _logger;
 
-        public FinnhubService(HttpClient httpClient)
+        // Constructor for the FinnhubService class
+        public FinnhubService(HttpClient httpClient, ILogger<FinnhubService> logger)
         {
             _httpClient = httpClient;
+            _logger = logger;
         }
 
+        // Method to search for a stock symbol
         public async Task<List<ResultItem>> SearchSymbol(string query)
         {
-            var url = $"{BaseUrl}search?q={query}&token={ApiKey}";
-
-            using var response = await _httpClient.GetAsync(url);
-
-            if (!response.IsSuccessStatusCode)
+            try
             {
-                // Handle API request failure
-                throw new Exception($"Failed to retrieve stock information. Status code: {response.StatusCode}");
+                var url = $"{BaseUrl}search?q={query}&token={ApiKey}";
+
+                using var response = await _httpClient.GetAsync(url);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    _logger.LogError($"Failed to retrieve stock information. Status code: {response.StatusCode}");
+                    throw new Exception($"Failed to retrieve stock information. Status code: {response.StatusCode}");
+                }
+
+                var responseContent = await response.Content.ReadAsStringAsync();
+                var searchResult = JsonSerializer.Deserialize<SearchResult>(responseContent);
+
+                if (searchResult != null && searchResult.Count > 0)
+                {
+                    var commonStockResults = searchResult.Result.Where(r => r.Type == "Common Stock").ToList();
+                    return commonStockResults.OrderBy(r => r.Symbol.Length).ToList();
+                }
+
+                return new List<ResultItem>();
             }
-
-            var responseContent = await response.Content.ReadAsStringAsync();
-
-            // Deserialize the response JSON
-            var searchResult = JsonSerializer.Deserialize<SearchResult>(responseContent);
-
-            if (searchResult != null && searchResult.Count > 0)
+            catch (Exception ex)
             {
-                // Filter the results to only include items of type "Common Stock"
-                var commonStockResults = searchResult.Result.Where(r => r.Type == "Common Stock").ToList();
-
-                // Order the result by the length of the symbol in ascending order
-                return commonStockResults.OrderBy(r => r.Symbol.Length).ToList();
+                _logger.LogError(ex, "An error occurred while searching for the symbol.");
+                throw;
             }
-
-            // If no results are found, return an empty list
-            return new List<ResultItem>();
         }
-        
+
+        // Method to get information about a stock
         public async Task<Stock> GetStockInformation(string symbol)
         {
-            var url = $"{BaseUrl}quote?symbol={symbol}&token={ApiKey}";
-
-            using var response = await _httpClient.GetAsync(url);
-
-            if (!response.IsSuccessStatusCode)
+            try
             {
-                // Handle API request failure
-                throw new Exception($"Failed to retrieve stock information. Status code: {response.StatusCode}");
+                var url = $"{BaseUrl}quote?symbol={symbol}&token={ApiKey}";
+
+                using var response = await _httpClient.GetAsync(url);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    _logger.LogError($"Failed to retrieve stock information. Status code: {response.StatusCode}");
+                    throw new Exception($"Failed to retrieve stock information. Status code: {response.StatusCode}");
+                }
+
+                var responseContent = await response.Content.ReadAsStringAsync();
+                var stockData = JsonSerializer.Deserialize<Dictionary<string, object>>(responseContent);
+
+                if(stockData == null)
+                {
+                    _logger.LogError("Unable to parse stock data.");
+                    throw new Exception("Unable to parse stock data.");
+                }
+
+                var stock = new Stock
+                {
+                    Symbol = symbol,
+                    CurrentPrice = TryParseToDecimal(stockData["c"]),
+                    Change = TryParseToDecimal(stockData["d"]),
+                    PercentChange = TryParseToDecimal(stockData["dp"]),
+                    HighPriceOfDay = TryParseToDecimal(stockData["h"]),
+                    LowPriceOfDay = TryParseToDecimal(stockData["l"]),
+                    OpenPriceOfDay = TryParseToDecimal(stockData["o"]),
+                    PreviousClosePrice = TryParseToDecimal(stockData["pc"]),
+                    Timestamp = TryParseToLong(stockData["t"]) * 1000  // Convert from seconds to milliseconds
+                };
+
+                return stock;
             }
-
-            var responseContent = await response.Content.ReadAsStringAsync();
-
-            // Deserialize the response JSON
-            var stockData = JsonSerializer.Deserialize<Dictionary<string, object>>(responseContent);
-
-            if(stockData == null)
+            catch (Exception ex)
             {
-                throw new Exception("Unable to parse stock data.");
+                _logger.LogError(ex, "An error occurred while retrieving stock information.");
+                throw;
             }
-
-            var stock = new Stock
-            {
-                Symbol = symbol,
-                CurrentPrice = TryParseToDecimal(stockData["c"]),
-                Change = TryParseToDecimal(stockData["d"]),
-                PercentChange = TryParseToDecimal(stockData["dp"]),
-                HighPriceOfDay = TryParseToDecimal(stockData["h"]),
-                LowPriceOfDay = TryParseToDecimal(stockData["l"]),
-                OpenPriceOfDay = TryParseToDecimal(stockData["o"]),
-                PreviousClosePrice = TryParseToDecimal(stockData["pc"]),
-                Timestamp = TryParseToLong(stockData["t"]) * 1000  // Convert from seconds to milliseconds
-            };
-
-            return stock;
         }
 
+        // Helper method to parse a value to decimal
         private decimal TryParseToDecimal(object value)
         {
             if(value != null)
@@ -93,6 +113,7 @@ namespace FinnHubTest.Services
             return 0;
         }
 
+        // Helper method to parse a value to long
         private long TryParseToLong(object value)
         {
             if(value != null)
@@ -103,56 +124,44 @@ namespace FinnHubTest.Services
             return 0;
         }
 
-        
+        // Method to get the name of a stock
         public async Task<string> GetStockName(string symbol)
         {
-            var url = $"{BaseUrl}search?q={symbol}&token={ApiKey}";
-
-            Console.WriteLine($"URL: {url}"); // Log the URL
-            Console.WriteLine($"Symbol: {symbol}"); // Log the Symbol
-
-            var response = await _httpClient.GetAsync(url);
-
-            Console.WriteLine($"Response: {response}"); // Log the response
-
-            if (response.IsSuccessStatusCode)
+            try
             {
-                var responseContent = await response.Content.ReadAsStringAsync();
+                var url = $"{BaseUrl}search?q={symbol}&token={ApiKey}";
 
-                Console.WriteLine($"Response Content: {responseContent}"); // Log the response content
+                var response = await _httpClient.GetAsync(url);
 
-                var searchResult = JsonSerializer.Deserialize<SearchResult>(responseContent);
-
-                Console.WriteLine($"Search Result: {searchResult}"); // Log the search result
-
-                if (searchResult != null && searchResult.Count > 0)
+                if (response.IsSuccessStatusCode)
                 {
-                    Console.WriteLine("Search result is not null and has more than 0 items."); // Log progress
+                    var responseContent = await response.Content.ReadAsStringAsync();
+                    var searchResult = JsonSerializer.Deserialize<SearchResult>(responseContent);
 
-                    // Search the result collection for the correct stock
-                    foreach (var result in searchResult.Result)
+                    if (searchResult != null && searchResult.Count > 0)
                     {
-                        Console.WriteLine($"Checking result: {result}"); // Log current result
-
-                        if (result.Symbol == symbol)
+                        foreach (var result in searchResult.Result)
                         {
-                            Console.WriteLine("Found matching stock."); // Log success
-                            return result.Description;
+                            if (result.Symbol == symbol)
+                            {
+                                return result.Description;
+                            }
                         }
                     }
                 }
                 else
                 {
-                    Console.WriteLine("Search result is either null or empty."); // Log issue
+                    _logger.LogError($"Failed to retrieve data from API. Status code: {response.StatusCode}");
+                    throw new Exception($"Failed to retrieve data from API. Status code: {response.StatusCode}");
                 }
-            }
-            else
-            {
-                Console.WriteLine($"Failed to retrieve data from API. Status code: {response.StatusCode}"); // Log API failure
-            }
 
-            Console.WriteLine("No matching stock found."); // Log failure
-            return "Unknown Stock"; // Return 'Unknown Stock' if no matching stock is found
+                return "Unknown Stock";
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while retrieving the stock name.");
+                throw;
+            }
         }
     }
 }

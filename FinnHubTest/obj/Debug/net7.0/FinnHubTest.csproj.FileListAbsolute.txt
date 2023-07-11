@@ -77,3 +77,15 @@
 /Users/lenbauer/RiderProjects/FinnHubTest/FinnHubTest/obj/Debug/net7.0/FinnHubTest.pdb
 /Users/lenbauer/RiderProjects/FinnHubTest/FinnHubTest/obj/Debug/net7.0/FinnHubTest.genruntimeconfig.cache
 /Users/lenbauer/RiderProjects/FinnHubTest/FinnHubTest/obj/Debug/net7.0/ref/FinnHubTest.dll
+/Users/lenbauer/RiderProjects/FinnHubTest/FinnHubTest/bin/Debug/net7.0/NLog.dll
+/Users/lenbauer/RiderProjects/FinnHubTest/FinnHubTest/bin/Debug/net7.0/NLog.Extensions.Logging.dll
+/Users/lenbauer/RiderProjects/FinnHubTest/FinnHubTest/bin/Debug/net7.0/NLog.Web.AspNetCore.dll
+/Users/lenbauer/RiderProjects/FinnHubTest/FinnHubTest/bin/Debug/net7.0/Serilog.dll
+/Users/lenbauer/RiderProjects/FinnHubTest/FinnHubTest/bin/Debug/net7.0/Serilog.AspNetCore.dll
+/Users/lenbauer/RiderProjects/FinnHubTest/FinnHubTest/bin/Debug/net7.0/Serilog.Extensions.Hosting.dll
+/Users/lenbauer/RiderProjects/FinnHubTest/FinnHubTest/bin/Debug/net7.0/Serilog.Extensions.Logging.dll
+/Users/lenbauer/RiderProjects/FinnHubTest/FinnHubTest/bin/Debug/net7.0/Serilog.Formatting.Compact.dll
+/Users/lenbauer/RiderProjects/FinnHubTest/FinnHubTest/bin/Debug/net7.0/Serilog.Settings.Configuration.dll
+/Users/lenbauer/RiderProjects/FinnHubTest/FinnHubTest/bin/Debug/net7.0/Serilog.Sinks.Console.dll
+/Users/lenbauer/RiderProjects/FinnHubTest/FinnHubTest/bin/Debug/net7.0/Serilog.Sinks.Debug.dll
+/Users/lenbauer/RiderProjects/FinnHubTest/FinnHubTest/bin/Debug/net7.0/Serilog.Sinks.File.dll

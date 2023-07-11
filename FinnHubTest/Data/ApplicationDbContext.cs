@@ -11,5 +11,4 @@ public class ApplicationDbContext : IdentityDbContext
     {
     }
     public DbSet<Favorite> Favorites { get; set; }
-
 }
